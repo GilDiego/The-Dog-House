@@ -2,6 +2,7 @@ const { Router } = require('express');
 const fetch = require("node-fetch");
 require('dotenv').config();
 const { API_KEY } = process.env;
+const { Temperament } = require('../db.js');
 
 const router = Router();
 
@@ -16,8 +17,8 @@ function filterTemperaments(data){
                 uniqueTemperaments.push(temperament)
             }
         })
-        
-        return uniqueTemperaments
+        uniqueTemperaments.forEach((value) => Temperament.create({name: value}))
+        // add sort by alphabetical order
     }
 }
 
@@ -28,8 +29,12 @@ function filterTemperaments(data){
 router.get('/', (req, res)=>{
     fetch(fetchDogsUrl)
     .then(data => data.json())
-    .then(data => res.status(200).send(filterTemperaments(data)))
+    .then(data => filterTemperaments(data))
     .catch(e => console.log(e))
+
+    Temperament.findAll({ attributes: ['name'] }).then(data => res.json(data))
+    
+
 })
 
 
