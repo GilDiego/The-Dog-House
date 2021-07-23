@@ -3,7 +3,7 @@ const { Router } = require('express');
 // Ejemplo: const authRouter = require('./auth.js');
 const dogs = require('./dogs.js');
 const dogsParams = require('./dogsParams')
-const Temperament = require('./temperaments.js');
+const temperament = require('./temperaments.js');
 const dogPost = require('./dogPost.js');
 
 const router = Router();
@@ -12,7 +12,7 @@ const router = Router();
 
 router.use('/dogs', dogs)
 router.use('/dogs/:id', dogsParams)
-router.use('/temperament', Temperament)
+router.use('/temperament', temperament)
 router.use('/dog', dogPost)
 
 
