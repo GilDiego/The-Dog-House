@@ -22,7 +22,7 @@ function fetchDogs(data){
             }
         )).slice(0,8))
     }
-    return array[0]
+    return array
 }
 
 function queryMatch(data){

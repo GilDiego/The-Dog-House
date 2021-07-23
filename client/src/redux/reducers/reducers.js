@@ -1,4 +1,4 @@
-import { GET_DOGS } from "../actions/actions"
+import { GET_DOGS, SEARCH_DOGS } from "../actions/actions"
 
 
 const initialState = {
@@ -7,14 +7,19 @@ const initialState = {
 
 function dogsReducer (state = initialState, action) {
     
-    if (action.type === GET_DOGS){
-        return {
-            ...state,
-            dogsLoaded: action.payload
-        }
-    }
+    switch (action.type) {
+        case GET_DOGS:
+            return {
+                ...state,
+                dogsLoaded: action.payload
+            }
+        // case SEARCH_DOGS:
+        //     return state
+            
+        default:
+            return state
 
-    return state
+    }
 }
 
 export default dogsReducer
