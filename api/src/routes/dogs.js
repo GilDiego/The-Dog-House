@@ -16,26 +16,37 @@ function fetchDogs(data){
     if (array.length < 9){
         array.push(data.map(dog => (
             {
+                id : dog.id,
                 image: dog.image.id,
                 name: dog.name,
                 temperament: dog.temperament
             }
         )).slice(0,8))
     }
-    return array
+    return array[0]
 }
 
 function queryMatch(data){
-    if (data.length === 0) return 'No matches :('
-    else return data    
+    if (data.length === 0) return 'No search queries.'
+    else {
+        let array = [];
+        array.push(data.map(dog => (
+            {
+                id : dog.id,
+                image: dog.reference_image_id,
+                name: dog.name,
+                temperament: dog.temperament
+            }
+        )).slice(0,8))
+        return array[0]
+    }
 }
-
 router.get('/', (req, res)=>{
     const { name } = req.query
     if (name) {
         fetch(fetchDogsQuery + name)
     .then(data => data.json())
-    .then(data => res.status(200).json(queryMatch(data.map(dog => dog.name).slice(0,8))))
+    .then(data => res.status(200).json(queryMatch(data)))
     .catch(e => console.log('Unable to fetch with query.'))
     }
         fetch(fetchDogsUrl)

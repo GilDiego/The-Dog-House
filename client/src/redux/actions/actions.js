@@ -14,12 +14,12 @@ export function getDogs(){
     }
 }
 
-// export function searchDogs(name){
-//     return function(dispatch){
-//         return fetch('http://localhost:3001/dogs?name=' + name)
-//             .then(data => data.json())
-//             .then (json => {
-//                 dispatch({ type: "SEARCH_DOGS", payload: json})
-//             })
-//     }
-// }
+export function searchDogs(name){
+    return function(dispatch){
+        return fetch('http://localhost:3001/dogs?name=' + name)
+            .then(data => data.json())
+            .then (json => {
+                dispatch({ type: "SEARCH_DOGS", payload: json})
+            })
+    }
+}

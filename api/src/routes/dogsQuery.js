@@ -26,7 +26,7 @@ router.get('/', (req, res)=>{
     const { name } = req.query
     fetch(fetchDogsQuery + name)
     .then(data => data.json())
-    .then(data => res.status(200).send(queryMatch(data.map(dog => dog.name).slice(0,8))))
+    .then(data => res.status(200).json(queryMatch(data.map(dog => dog.name).slice(0,8))))
     .catch(e => console.log('Unable to fetch with query.'))
     
 })
