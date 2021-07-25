@@ -1,9 +1,8 @@
 export const GET_DOGS = 'GET_DOGS'
 export const SEARCH_DOGS = 'SEARCH_DOGS'
+export const SEARCH_ID = 'SEARCH_ID'
 
 
-
-// fetches information to show in home
 export function getDogs(){
     return function(dispatch){
         return fetch('http://localhost:3001/dogs')
@@ -23,3 +22,13 @@ export function searchDogs(name){
             })
     }
 }
+
+export function searchId(id){
+    return function(dispatch){
+        return fetch('http://localhost:3001/dogs/' + id)
+            .then(data => data.json())
+            .then (json => {
+                dispatch({ type: "SEARCH_ID", payload: json})
+            })
+    }
+    }

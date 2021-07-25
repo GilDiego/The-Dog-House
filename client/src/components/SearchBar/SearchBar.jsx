@@ -15,11 +15,13 @@ export default function Searchbar() {
             dispatch(searchDogs(results))
     },[results])
 
-    function handleSubmit(e){
-        e.preventDefault();
-        dispatch(searchDogs(results))
-    }
+    // function handleSubmit(e){
+    //     e.preventDefault();
+    //     dispatch(searchDogs(results))
+    // }
 
+    // Cuando searchbar se active para resolver busqueda desde component load
+    
     function handleChange(e){
         getResults(e.target.value)
     }
@@ -27,13 +29,14 @@ export default function Searchbar() {
     return (
         
         <div>
-            <form onSubmit={e => handleSubmit(e)}>
-                <input
-                    type="text"
-                    placeholder="Search for dogs"
-                    onChange={e => handleChange(e)}
-                />
-                <input type="submit" value="Search" />
+            <form>
+                
+                        <input
+                            type="text"
+                            placeholder="Search for dogs"
+                            onChange={e => handleChange(e)}
+                        />
+                        {/* <input type="submit" value="Search" /> */}
             </form>
         </div>
     )

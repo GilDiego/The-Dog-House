@@ -16,31 +16,35 @@ export default function Cards() {
     useEffect(()=>{
         dispatch(getDogs())
     },[])
-
+    
     return (
-    (resultsRedux.length > 0) ? (
+        (resultsRedux === 'No search queries.') ? (<p>Nope. Nothing like that over here, try something different. </p>) : (
+                (resultsRedux.length > 0) ? (
             <>
+
                 {
                     resultsRedux.map(dog => <Card 
                         key={dog.id}
+                        id={dog.id}
                         img={dog.image}
                         name={dog.name}
                         temperaments={dog.temperament}
                     />)
                 }
                 </>
-    ) : (
+                ) : (
             <>
-            {
-                dogsRedux.map(dog => <Card 
-                    key={dog.id}
-                    img={dog.image}
-                    name={dog.name}
-                    temperaments={dog.temperament}
-                />)
-            }
+                {
+                    dogsRedux.map(dog => <Card 
+                        key={dog.id}
+                        id={dog.id}
+                        img={dog.image}
+                        name={dog.name}
+                        temperaments={dog.temperament}
+                    />)
+                }
             </>
-        )
+        ))
     )
 }
     // else return <img src="../../media/loading1.gif" alt="Loading" />

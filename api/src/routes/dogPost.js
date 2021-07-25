@@ -27,9 +27,11 @@ router.post('/', (req, res)=>{
     const { name, minHeight, maxHeight, minWeight, maxWeight, life_span } = req.body
     Dog.create({
         name,
-        height: ((minHeight + maxHeight) / 2) / 100 + ' avg in Meters',
-        weight: ((minWeight + maxWeight) / 2) / 1000 + ' avg in Kilograms',
-        life_span: life_span + ' years',
+        minHeight,
+        maxHeight,
+        minWeight,
+        maxWeight,
+        life_span,
     })
     res.status(200).send('Dog generated successfully.')
     

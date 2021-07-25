@@ -5,15 +5,15 @@ export default function Buttons() {
     return (
         <div>
             <form action="">
-                <span className="button-row">Show from: </span>
-                    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
-                    <label for="vehicle1"> API</label>
+                <span className="button-row">Results from: </span>
+                    <input type="checkbox" defaultChecked={true} id="vehicle1" name="vehicle1" value="Bike" />
+                    <label> API</label>
 
-                    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
-                    <label for="vehicle1"> DB</label>
-                <br />
+                    <input type="checkbox" defaultChecked={true} id="vehicle1" name="vehicle1" value="Bike" />
+                    <label>DB</label>
+            
                 <span className="button-row">Sort by: </span>
-                    <label for="Temperaments">Temperament:</label>
+                    <label>Temperament:</label>
                     <select name="Temperaments" id="Temperaments">
                         <option value="volvo">All</option>
                     {/* Needs to map all temperaments to show options */}
@@ -21,13 +21,13 @@ export default function Buttons() {
                         <option value="saab">Curious</option>
                     </select>
 
-                    <label for="Alphabetic">Alphabetic:</label>
-                    <select name="Alphabetic" id="Alphabetic">
+                    <label>Order:</label>
+                    <select name="Order" id="Order">
                         <option value="A-Z">A - Z</option>
                         <option value="Z-A">Z - A</option>
                     </select>
 
-                    <label for="Weight">Weight:</label>
+                    <label>Weight:</label>
                     <select name="Weight" id="Weight">
                         <option value="Lightest-first">Lightest first</option>
                         <option value="Heaviest-first">Heaviest first</option>

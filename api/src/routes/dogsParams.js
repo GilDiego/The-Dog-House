@@ -24,7 +24,7 @@ if (data && id){
             delete dog.height.imperial;
             delete dog.bred_for;
         })
-        return response
+        return response[0]
     } else {
             return 'No match for the ID recieved'
     }

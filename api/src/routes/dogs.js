@@ -38,8 +38,10 @@ function queryMatch(data){
                 temperament: dog.temperament
             }
         )).slice(0,8))
-        return array[0]
+        if (array.length > 0) return array[0]
+        else return "No results :("
     }
+    
 }
 router.get('/', (req, res)=>{
     const { name } = req.query
@@ -52,7 +54,7 @@ router.get('/', (req, res)=>{
         fetch(fetchDogsUrl)
     .then(data => data.json())
     .then(data => res.status(200).json(fetchDogs(data)))
-    .catch(e => console.log('Unable to fetch.'))
+    .catch(e => console.log('Unable to fetch without query.'))
     
     
 })
