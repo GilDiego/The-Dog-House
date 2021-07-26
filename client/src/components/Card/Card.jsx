@@ -1,8 +1,5 @@
-import React,  { useState, useEffect} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import Details from '../Details/Details.jsx'
-import { searchDogs, searchId } from '../../redux/actions/actions';
 import './Card.css';
 
 // cuando click se actualiza el estado global con el id del perro, y con Link 

@@ -5,14 +5,6 @@ const { API_KEY } = process.env;
 
 
 const fetchDogsParams = 'https://api.thedogapi.com/v1/breeds?api_key=' + API_KEY
-// [ ] GET /dogs/{idRaza}:
-// Obtener el detalle de una raza de perro en particular
-// Debe traer solo los datos pedidos en la ruta de detalle de raza de perro
-// Incluir los temperamentos asociados
-// [ ] Los campos mostrados en la ruta principal para cada raza (imagen, nombre y temperamento)
-// [ ] Altura
-// [ ] Peso
-// [ ] Años de vida
 
 function paramsMatch(data, id){
 if (data && id){

@@ -19,7 +19,11 @@ function fetchDogs(data){
                 id : dog.id,
                 image: dog.image.id,
                 name: dog.name,
-                temperament: dog.temperament
+                temperament: dog.temperament,
+                weight: dog.weight.metric + ' kilograms',
+                height: dog.height.metric + ' meters',
+                lifeSpan: dog.life_span
+                
             }
         )).slice(0,8))
     }
@@ -35,7 +39,10 @@ function queryMatch(data){
                 id : dog.id,
                 image: dog.reference_image_id,
                 name: dog.name,
-                temperament: dog.temperament
+                temperament: dog.temperament,
+                weight: dog.weight.metric + ' kilograms',
+                height: dog.height.metric + ' meters',
+                lifeSpan: dog.life_span
             }
         )).slice(0,8))
         if (array.length > 0) return array[0]

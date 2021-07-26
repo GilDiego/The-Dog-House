@@ -6,16 +6,10 @@ import { searchId } from '../../redux/actions/actions';
 import './Details.css';
 
 
-// [ ] Los campos mostrados en la ruta principal para cada raza (imagen, nombre y temperamento)
-// [ ] Altura
-// [ ] Peso
-// [ ] Años de vida
-
-
 export default function Details () {
     //Redux Hooks
     const dispatch = useDispatch()
-    const dogObject = useSelector(state => state.dogById)
+    const dogObject = useSelector(state => state.dogsReducer.dogById)
     
 
     // React location hook
@@ -24,6 +18,8 @@ export default function Details () {
 
     useEffect(() => {
         dispatch(searchId(id))
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     return (

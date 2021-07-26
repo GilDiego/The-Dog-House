@@ -4,23 +4,15 @@ import { searchDogs } from '../../redux/actions/actions';
 
 
 export default function Searchbar() {
-    // Component state
     const [results, getResults] = useState('')
 
-    // Redux Hooks
     const dispatch = useDispatch()
-    const resultsRedux = useSelector(state => state.dogsSearched)
+    const resultsRedux = useSelector(state => state.dogsReducer.dogsSearched)
 
     useEffect(() =>{
             dispatch(searchDogs(results))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     },[results])
-
-    // function handleSubmit(e){
-    //     e.preventDefault();
-    //     dispatch(searchDogs(results))
-    // }
-
-    // Cuando searchbar se active para resolver busqueda desde component load
     
     function handleChange(e){
         getResults(e.target.value)
@@ -36,7 +28,6 @@ export default function Searchbar() {
                             placeholder="Search for dogs"
                             onChange={e => handleChange(e)}
                         />
-                        {/* <input type="submit" value="Search" /> */}
             </form>
         </div>
     )
