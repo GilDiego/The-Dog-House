@@ -1,9 +1,10 @@
-import { FETCH_DB, SET_OPTIONS, SET_SOURCES } from "../actions/buttonsActions.js"
+import { FETCH_DB, FETCH_TEMPERAMENTS, SET_OPTIONS, SET_SOURCES } from "../actions/buttonsActions.js"
 
 const initialState = {
     dogsFromDB: {},
     sources: {},
-    optionsSelected: {}
+    optionsSelected: {},
+    temperamentsFromDB: []
 }
 
 function buttonsReducer (state = initialState, action) {
@@ -23,7 +24,11 @@ function buttonsReducer (state = initialState, action) {
                 ...state,
                 optionsSelected: action.payload
             } 
-    
+        case FETCH_TEMPERAMENTS:
+            return {
+                ...state,
+                temperamentsFromDB: action.payload
+            }
         default:
             return state
     }

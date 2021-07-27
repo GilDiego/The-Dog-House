@@ -1,6 +1,7 @@
 export const FETCH_DB = 'FETCH_DB'
 export const SET_OPTIONS = 'SET_OPTIONS'
 export const SET_SOURCES = 'SET_SOURCES'
+export const FETCH_TEMPERAMENTS = 'FETCH_TEMPERAMENTS'
 
 export function fetchDB(){
     return function(dispatch){
@@ -11,7 +12,6 @@ export function fetchDB(){
             })
     }
 }
-
 export function setSources(API, DB){
     return function(dispatch){
         let obj = {}
@@ -28,5 +28,16 @@ export function setOptionsSelected(temperament, order, weight){
                 obj = {temperament, order, weight},
                 dispatch({ type: "SET_OPTIONS", payload: obj}))
             
+    }
+}
+export function fetchAndMapTemperaments(){
+    return function(dispatch){
+        return fetch('http://localhost:3001/temperament')
+            .then(data => data.json())
+            .then (json => {
+                // if !json.length fetch again
+                json.map((temperament) => temperament.name)
+                dispatch({ type: "FETCH_TEMPERAMENTS", payload: json})
+            })
     }
 }

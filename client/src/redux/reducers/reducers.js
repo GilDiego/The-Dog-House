@@ -3,7 +3,7 @@ import { GET_DOGS, SEARCH_DOGS, SEARCH_ID } from "../actions/actions"
 
 const initialState = {
     dogsLoaded: [],
-    dogsSearched: '',
+    dogsSearched: [],
     dogById: {},
 }
 

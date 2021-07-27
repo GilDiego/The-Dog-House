@@ -26,7 +26,7 @@ function filterTemperaments(data){
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
-router.get('/', (req, res)=>{
+router.get('/', async (req, res)=>{
     fetch(fetchDogsUrl)
     .then(data => data.json())
     .then(data => filterTemperaments(data))

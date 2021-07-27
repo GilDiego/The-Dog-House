@@ -7,24 +7,11 @@ const { Dog } = require('../db.js');
 const router = Router();
 
 
-function dogGenerator(name, minHeight, maxHeight, minWeight, maxWeight, life_span){
-    if (name && minHeight && maxHeight && minWeight && maxWeight && life_span){
-        return {
-            name,
-            minHeight,
-            maxHeight,
-            minWeight,
-            maxWeight,
-            life_span
-        }
-    }
-    else return {Error: 'All fields are required.'}
-}
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 router.post('/', (req, res)=>{
-    const { name, minHeight, maxHeight, minWeight, maxWeight, life_span } = req.body
+    const { name, minHeight, maxHeight, minWeight, maxWeight, life_span, image, temperament } = req.body
     Dog.create({
         name,
         minHeight,
@@ -32,6 +19,8 @@ router.post('/', (req, res)=>{
         minWeight,
         maxWeight,
         life_span,
+        image,
+        temperament
     })
     res.status(200).send('Dog generated successfully.')
     

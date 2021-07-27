@@ -14,6 +14,7 @@ export default function Buttons() {
     const dispatch = useDispatch()
     const srcs = useSelector(state => state.buttonsReducer.sources)
     const optionsSelected = useSelector(state => state.buttonsReducer.optionsSelected)
+    const temperamentsDB = useSelector(state => state.buttonsReducer.temperamentsFromDB)
 
     useEffect(() => {
         dispatch(setSources(API, DB))

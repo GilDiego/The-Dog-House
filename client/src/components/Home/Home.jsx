@@ -23,7 +23,6 @@ export default function Home () {
     return (
         
         <>
-        <h1> Estas en home</h1>
 
         <Searchbar/>
         <Buttons/>

@@ -4,6 +4,12 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('dog', {
+    idDB: {
+      type: DataTypes.VIRTUAL,
+        get() {
+          return `${this.id}DB`;
+        },
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -38,7 +44,15 @@ module.exports = (sequelize) => {
     },
     life_span: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    image: {
+      type: DataTypes.STRING,
       allowNull: true,
-    }
+    },
+    temperament: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
   });
 };
