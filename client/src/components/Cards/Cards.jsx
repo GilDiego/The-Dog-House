@@ -1,15 +1,18 @@
 import React, { useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { getDogs, searchDogs } from '../../redux/actions/actions';
+import { getDogs } from '../../redux/actions/actions';
 import { fetchDB } from '../../redux/actions/buttonsActions';
 import Card from '../Card/Card.jsx'
+// import Pagination from '../Pagination/Pagination.jsx';
 
 
 export default function Cards() {
-    
-    const [sources, setSources] = useState({})
-    const [options, setOptions] = useState({})
     const [display, setDisplay] = useState([])
+    // const [pages, setPages] = useState(0)
+    const [finalDisplay, setFinal] = useState([])
+    const [displaySearch, setDisplaySearch] = useState([])
+    // const [finalSearch, SetFinalSearch] = useState([])
+
 
     const dispatch = useDispatch()
     const dogsRedux = useSelector(state => state.dogsReducer.dogsLoaded)
@@ -19,77 +22,131 @@ export default function Cards() {
     const srcs = useSelector(state => state.buttonsReducer.sources)
     const optionsSelected = useSelector(state => state.buttonsReducer.optionsSelected)
 
+    // useEffect(() =>{
+    //     setPages(0)
+    //     let counter = 0
+    //     finalDisplay.forEach(dog => counter++)
+    //     counter = (counter / 8)
+    //     setPages(counter)
+    // },[finalDisplay, displaySearch])
 
     useEffect(()=>{
         dispatch(getDogs())
         dispatch(fetchDB())
-        setSources(srcs)
-        setOptions(optionsSelected)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    // concats arrays to display initially
+    
+    // concats arrays to display
     useEffect(() => {
-            if (dogsDB.length && dogsRedux.length) {
-                return setDisplay(dogsDB.concat(dogsRedux))
-            }
+        if (dogsDB.length && dogsRedux.length) return setDisplay(dogsDB.concat(dogsRedux))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dogsRedux, dogsDB])
 
-    // listener for sources and options change
+    // sets final display 
     useEffect(() => {
-        setSources(srcs)
-        setOptions(optionsSelected)
+        setFinal(display)
+    }, [display])
+
+    // if search, generates displaySearch values
+    useEffect(() => {
+        return setDisplaySearch(resultsRedux) 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [resultsRedux])
+    
+    //////////////////////////////////// Sources and Filter functions ////////////////////////////////
+    function filterAPI(array){
+        if (srcs.API === false){
+            return array.filter(dog => !dogsRedux.includes(dog))
+        }
+        else return array
+    }
+    function filterDB(array){
+        if (srcs.DB === false){
+            return array.filter(dog => !dogsDB.includes(dog))
+        }
+        else return array
+    }
+    function filterByTemperament(array){
+        if (optionsSelected.temperament !== 'All'){
+            return array.filter(dog => {
+                if (dog.temperament){
+                    return dog.temperament.toString().split(',').map(word => word.trim().replace(',', '')).includes(optionsSelected.temperament)
+                }
+                else return false
+            })
+        } 
+        else return array
+    }
+    function filterAlphabetically(array){
+        if (optionsSelected.order === 'A-Z'){
+            return array.sort((a, b) => b.name.localeCompare(a.name));
+        }
+        else if (optionsSelected.order === 'Z-A'){
+            return array.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        else return array
+    }
+    function findAvg(value){
+        if (typeof value === 'string'){
+            let arr = value.split('-')
+            let res = (Number(arr[0]) + Number(arr[1]))/2
+            return parseInt(res).toString()
+        }
+    }
+    function filterByWeight(array){
+        if (optionsSelected.weight === "Lightest-first"){
+            return array.sort((a, b) => findAvg(a.weight).localeCompare(findAvg(b.weight)));
+        }
+        else if (optionsSelected.weight === "Heaviest-first"){
+            return array.sort((a, b) => findAvg(b.weight).localeCompare(findAvg(a.weight)));
+        }
+        else return array
+    }
+    //////////////////////////////////// End of Filter functions ////////////////////////////////
+
+    // filter finalDisplay by sources and options selected
+    useEffect(() => {
+        if (dogsDB.length && dogsRedux.length && display.length){
+            let result = display
+            result = filterAPI(result)
+            result = filterDB(result)
+            result = filterByTemperament(result)
+            result = filterAlphabetically(result)
+            result = filterByWeight(result)
+            setFinal(result)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [srcs, optionsSelected])
 
-    // filters display if sources options are changed
-    useEffect(() => {
-        if (dogsDB.length && dogsRedux.length){
-            if (sources.API && sources.DB) return setDisplay(dogsDB.concat(dogsRedux))
-            if (sources.API && !sources.DB) return setDisplay(dogsRedux)
-            if (!sources.API && sources.DB) return setDisplay(dogsDB)
-            if (!sources.API && !sources.DB) return setDisplay([])
-        }
-        else if (!dogsDB.length && dogsRedux.length){
-            if (sources.API && sources.DB) return setDisplay(dogsRedux)
-            if (sources.API && !sources.DB) return setDisplay(dogsRedux)
-            // next needs to show alert "no dogs in DB"
-            if (!sources.API && sources.DB) return setDisplay(dogsRedux)
-            if (!sources.API && !sources.DB) return setDisplay([])
-        }
-    }, [sources])
 
-    // filters display if options are changed
-    useEffect(() => {
-        // if options.order === 'A-Z'
-        console.log('An option has changed')
-    }, [options])
-    
     // sets ID for API or DB data
     function chooseId(idAPI, idDB){
         if (idDB) return idDB
         else return idAPI
     }
     return (
-        (resultsRedux.length < 1) ? (
-            (display.length < 1) ? ( <p>Loading gif</p> ) : (
+        (displaySearch.length < 1) ? (
+            (finalDisplay.length < 1) ? ( <p>Loading gif</p> ) : (
                 <>
                         {
-                            display.map(dog => <Card 
+                            finalDisplay.map(dog => <Card 
                                 key={chooseId(dog.id, dog.idDB)}
                                 id={chooseId(dog.id, dog.idDB)}
                                 img={dog.image}
                                 name={dog.name}
                                 temperaments={dog.temperament}
+                                weight={dog.weight}
                             />)
                         }
+                        {/* <Pagination number={pages}/> */}
                     </>
             )
         ) : (
-                (resultsRedux === 'No search queries.' ) ? (<p>No matches. Sad doggo</p>) : (
+                (displaySearch === 'No search queries.' ) ? (<p>No matches. Sad doggo</p>) : (
                     
                     <>
                         {
-                        resultsRedux.map(dog => <Card 
+                        displaySearch.map(dog => <Card 
                             key= {chooseId(dog.id, dog.idDB)}
                             id={chooseId(dog.id, dog.idDB)}
                             img={dog.image}
@@ -97,10 +154,12 @@ export default function Cards() {
                             temperaments={dog.temperament}
                             />)
                         }
+                        {/* <Pagination number={pages}/> */}
                     </>
                 )
             )
             //
+            
     )
 }
         

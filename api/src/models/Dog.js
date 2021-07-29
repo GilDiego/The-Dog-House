@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
     height: {
       type: DataTypes.VIRTUAL,
         get() {
-          return `${this.minHeight} - ${this.maxHeight} meters`;
+          return `${this.minHeight} - ${this.maxHeight}`;
         },
     },
     minWeight: {
@@ -39,7 +39,7 @@ module.exports = (sequelize) => {
     weight: {
       type: DataTypes.VIRTUAL,
         get() {
-          return `${this.minWeight} - ${this.maxWeight} kilograms`;
+          return `${this.minWeight} - ${this.maxWeight}`;
         },
     },
     life_span: {

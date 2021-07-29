@@ -35,9 +35,9 @@ export function fetchAndMapTemperaments(){
         return fetch('http://localhost:3001/temperament')
             .then(data => data.json())
             .then (json => {
-                // if !json.length fetch again
-                json.map((temperament) => temperament.name)
-                dispatch({ type: "FETCH_TEMPERAMENTS", payload: json})
+                let array = json.map((temperament) => temperament.name).sort((a, b) => 
+                    a.localeCompare(b)).filter(filter => filter !== 'undefined')
+                dispatch({ type: "FETCH_TEMPERAMENTS", payload: array})
             })
     }
 }

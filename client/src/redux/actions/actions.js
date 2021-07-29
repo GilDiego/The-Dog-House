@@ -1,6 +1,7 @@
 export const GET_DOGS = 'GET_DOGS'
 export const SEARCH_DOGS = 'SEARCH_DOGS'
 export const SEARCH_ID = 'SEARCH_ID'
+export const POST_DOG = 'POST_DOG'
 
 
 export function getDogs(){

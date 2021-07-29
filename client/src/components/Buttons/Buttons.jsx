@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setOptionsSelected, setSources } from '../../redux/actions/buttonsActions'
+import { setOptionsSelected, setSources, fetchAndMapTemperaments } from '../../redux/actions/buttonsActions'
 import './Buttons.css'
 
 export default function Buttons() {
@@ -10,15 +10,17 @@ export default function Buttons() {
     const [temperament, setTemperament] = useState('All')
     const [order, setOrder] = useState('A-Z')
     const [weight, setWeight] = useState('All')
+    const [allTemps, setAllTemps] = useState([])
 
     const dispatch = useDispatch()
-    const srcs = useSelector(state => state.buttonsReducer.sources)
-    const optionsSelected = useSelector(state => state.buttonsReducer.optionsSelected)
+    // const srcs = useSelector(state => state.buttonsReducer.sources)
+    // const optionsSelected = useSelector(state => state.buttonsReducer.optionsSelected)
     const temperamentsDB = useSelector(state => state.buttonsReducer.temperamentsFromDB)
 
     useEffect(() => {
         dispatch(setSources(API, DB))
         dispatch(setOptionsSelected(temperament, order, weight))
+        dispatch(fetchAndMapTemperaments())
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
@@ -32,7 +34,11 @@ export default function Buttons() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[temperament, order, weight])
 
+    useEffect(() => {
+        setAllTemps(temperamentsDB)
+    }, [temperamentsDB])
 
+    let id = 0
 
     return (
         <div>
@@ -48,20 +54,21 @@ export default function Buttons() {
                     <label>Temperament:</label>
                     <select name="Temperaments" id="Temperaments" onChange={e => setTemperament(e.target.value)}>
                         <option value="All">All</option>
-                    {/* Needs to map all temperaments to show options */}
-                        <option value="Stubborn">Stubborn</option>
-                        <option value="Curious">Curious</option>
+                        {
+                            allTemps.map( temp => <option key={id++} value={temp}>{temp}</option>)
+                        }
                     </select>
 
                     <label>Order:</label>
                     <select name="Order" id="Order" onChange={e => setOrder(e.target.value)}>
+                        <option value="Default">Default</option>
                         <option value="A-Z">A - Z</option>
                         <option value="Z-A">Z - A</option>
                     </select>
 
                     <label>Weight:</label>
                     <select name="Weight" id="Weight" onChange={e => setWeight(e.target.value)}>
-                        <option value="All">All</option>
+                        <option value="Default">Default</option>
                         <option value="Lightest-first">Lightest first</option>
                         <option value="Heaviest-first">Heaviest first</option>
                     </select>

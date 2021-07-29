@@ -20,12 +20,13 @@ function fetchDogs(data){
                 image: dog.image.id,
                 name: dog.name,
                 temperament: dog.temperament,
-                weight: dog.weight.metric + ' kilograms',
-                height: dog.height.metric + ' meters',
-                lifeSpan: dog.life_span
+                weight: dog.weight.metric,
+                height: dog.height.metric,
+                lifeSpan: dog.life_span,
+                
                 
             }
-        )).slice(0,8))
+        )))
     }
     return array[0]
 }
@@ -40,11 +41,12 @@ function queryMatch(data){
                 image: dog.reference_image_id,
                 name: dog.name,
                 temperament: dog.temperament,
-                weight: dog.weight.metric + ' kilograms',
-                height: dog.height.metric + ' meters',
-                lifeSpan: dog.life_span
+                weight: dog.weight.metric,
+                height: dog.height.metric,
+                lifeSpan: dog.life_span,
+                
             }
-        )).slice(0,8))
+        )))
         if (array.length > 0) return array[0]
         else return "No results :("
     }
