@@ -25,7 +25,9 @@ export function setOptionsSelected(temperament, order, weight){
     return function(dispatch){
         let obj = {}
         return ( 
-                obj = {temperament, order, weight},
+                obj = {temperament: temperament,
+                    order: order,
+                    weight: weight},
                 dispatch({ type: "SET_OPTIONS", payload: obj}))
             
     }

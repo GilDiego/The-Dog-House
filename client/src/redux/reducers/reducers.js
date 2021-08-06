@@ -1,10 +1,11 @@
-import { GET_DOGS, SEARCH_DOGS, SEARCH_ID } from "../actions/actions"
+import { GET_DOGS, SAVE_SEARCH, SEARCH_DOGS, SEARCH_ID } from "../actions/actions"
 
 
 const initialState = {
     dogsLoaded: [],
     dogsSearched: [],
     dogById: {},
+    search: {}
 }
 
 function dogsReducer (state = initialState, action) {
@@ -25,7 +26,11 @@ function dogsReducer (state = initialState, action) {
                 ...state,
                 dogById: action.payload
             }
-            
+        case SAVE_SEARCH:
+            return {
+                ...state,
+                search: action.payload
+            }            
         default:
             return state
 

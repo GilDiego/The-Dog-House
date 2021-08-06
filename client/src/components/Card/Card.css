@@ -1,6 +1,11 @@
 .card-body {
-  border: 2px solid black;
+  border: 1px solid rgb(160, 153, 153);
+  border-radius: 9px;
 }
 .show-details:hover {
   cursor: pointer;
+}
+
+.card-img {
+  height: 200px;
 }

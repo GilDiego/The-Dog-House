@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from 'react'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setOptionsSelected, setSources, fetchAndMapTemperaments } from '../../redux/actions/buttonsActions'
 import './Buttons.css'
@@ -8,7 +9,7 @@ export default function Buttons() {
     const [API, setAPI] = useState(true)
     const [DB, setDB] = useState(true)
     const [temperament, setTemperament] = useState('All')
-    const [order, setOrder] = useState('A-Z')
+    const [order, setOrder] = useState('Default')
     const [weight, setWeight] = useState('All')
     const [allTemps, setAllTemps] = useState([])
 
@@ -42,6 +43,8 @@ export default function Buttons() {
 
     return (
         <div>
+
+            <Link to="/new"><button>Create</button></Link>
             <form action="">
                 <span className="button-row">Results from: </span>
                     <input type="checkbox" defaultChecked={true} onChange={e => setAPI(!API)} id="vehicle1" name="vehicle1" value="Bike" />
@@ -62,8 +65,8 @@ export default function Buttons() {
                     <label>Order:</label>
                     <select name="Order" id="Order" onChange={e => setOrder(e.target.value)}>
                         <option value="Default">Default</option>
-                        <option value="A-Z">A - Z</option>
-                        <option value="Z-A">Z - A</option>
+                        <option value="asc">A - Z</option>
+                        <option value="desc">Z - A</option>
                     </select>
 
                     <label>Weight:</label>

@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAndMapTemperaments } from '../../redux/actions/buttonsActions';
+import './NewDog.css';
+import gif from '../../media/success.gif'
 
 
 export default function NewDog () {
@@ -25,6 +27,7 @@ export default function NewDog () {
         dispatch(fetchAndMapTemperaments())
         setEditing(true)
         setTemps([])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     
@@ -41,42 +44,37 @@ export default function NewDog () {
     }
     function validate(input){
         let errors = {};
-        // if (!input.name) {
-        //     errors.name = 'Name is required.';
-        // } else 
+
+        if (input.name){
         if (!(/^[a-zA-Z]+$/).test(input.name)) {
             errors.name = 'Name must contain only letters.';
-        }
-        // if (!input.minHeight) {
-        //     errors.minHeight = 'Minimum height is required.';
-        // } else 
+        }}
+
+        if (input.minHeight){
         if (!(/(?<=^| )\d+(\d*\.?\d*)?(?=$| )/).test(input.minHeight)) {
             errors.minHeight = 'Minimum height must contain only numbers (with or without periods).';
-        }
-        // if (!input.maxHeight) {
-        //     errors.maxHeight = 'Maximum height is required.';
-        // } else 
+        }}
+
+        if (input.maxHeight){
         if (!(/(?<=^| )\d+(\d*\.?\d*)?(?=$| )/).test(input.maxHeight)) {
             errors.maxHeight = 'Maximum height must contain only numbers (with or without periods).';
-        }
-        // if (!input.minWeight) {
-        //     errors.minWeight = 'Minimum weight is required.';
-        // } else 
+        }}
+
+        if (input.minWeight){
         if (!(/(?<=^| )\d+(\d*\.?\d*)?(?=$| )/).test(input.minWeight)) {
             errors.minWeight = 'Minimum weight must contain only numbers (with or without periods).';
-        }
-        // if (!input.maxWeight) {
-        //     errors.maxWeight = 'Maximum weight is required.';
-        // } else 
+        }}
+
+        if (input.maxWeight){
         if (!(/(?<=^| )\d+(\d*\.?\d*)?(?=$| )/).test(input.maxWeight)) {
             errors.maxWeight = 'Maximum weight must contain only numbers (with or without periods).';
-        }
-        // if (!input.lifeSpan) {
-        //     errors.lifeSpan = 'Life-span is required.';
-        // } else 
+        }}
+
+        if (input.life_span){
         if (!(/^[0-9]*$/).test(input.life_span)) {
             errors.life_span = 'Life-span must contain only numbers.';
-        }
+        }}
+
         return errors;
     }
     function createNew(e){
@@ -91,7 +89,9 @@ export default function NewDog () {
     }
     function submitForm(e){
             e.preventDefault();
-            setEditing(false)
+            // si todos los estados y name no se repite en la BD entonces mandar post
+            if (input.name.length && input.minHeight.length && input.maxHeight.length && input.minWeight.length && input.maxWeight.length && input.life_span.length && temps.length) {
+                setEditing(false)
             fetch('http://localhost:3001/dog',{
                 method: 'POST',
                 headers:{'Content-type': 'application/json'},
@@ -108,61 +108,60 @@ export default function NewDog () {
                 image: 'img',
                 temperament: ""
             })
+            }
+            else alert('All fields are required.')
+            
     }
 
 
     let id = 0
     return (
             (editing) ? (
-                <>
-                    <p>All fields are required.</p>
-                    <form>
+                <div className="main">
+                    <h3 className='title'>Creation Studio</h3>
+                    <p className='alert'>**All fields are required.</p>
+                    <form className='form'>
+                    <br />
                         
                         <div>
-                            <label>Name:</label>
-                            <input type="text" name="name" placeholder='Doggo' autoComplete='off' onChange={e => handleInputChange(e)} />
-                            {errors.name && (
-                                <p className="danger">{errors.name}</p>
-                            )}
+                            <label className='element'>Name:</label>
+                            <input className='field' type="text" size='10' name="name" placeholder='Doggo' autoComplete='off' onChange={e => handleInputChange(e)} />
+                            
                         </div>
+                        <br />
+                        
                         <div>
-                            <label>Minimum height:</label>
-                            <input type="text" name="minHeight" placeholder='1' autoComplete='off' onChange={e => handleInputChange(e)} />
-                            <label> meter(s).</label>
-                            {errors.minHeight && (
-                                <p className="danger">{errors.minHeight}</p>
-                            )}
+                            <label className='element'>Minimum height:</label>
+                            <input className='field' type="text" size='10' name="minHeight" placeholder='1' autoComplete='off' onChange={e => handleInputChange(e)} />
+                            <label className='label'> centimeters.</label>
+
                         </div>
+                        <br />
                         <div>
-                            <label>Maximum height:</label>
-                            <input type="text" name="maxHeight" placeholder='1.5' autoComplete='off' onChange={e => handleInputChange(e)} />
-                            <label> meter(s).</label>
-                            {errors.maxHeight && (
-                                <p className="danger">{errors.maxHeight}</p>
-                            )}
+                            <label className='element'>Maximum height:</label>
+                            <input className='field' type="text" size='10' name="maxHeight" placeholder='1.5' autoComplete='off' onChange={e => handleInputChange(e)} />
+                            <label className='label'> centimeters.</label>
                         </div>
+                        <br />
                         <div>
-                            <label>Minimum weight:</label>
-                            <input type="text" name="minWeight" placeholder='5' autoComplete='off' onChange={e => handleInputChange(e)} />
-                            <label> kilogram(s).</label>
-                            {errors.minWeight && (
-                                <p className="danger">{errors.minWeight}</p>
-                            )}
+                            <label className='element'>Minimum weight:</label>
+                            <input className='field' type="text" size='10' name="minWeight" placeholder='5' autoComplete='off' onChange={e => handleInputChange(e)} />
+                            <label className='label'> kilogram(s).</label>
+
+
                         </div>
+                        <br />
                         <div>
-                            <label>Maximum weight:</label>
-                            <input type="text" name="maxWeight" placeholder='8' autoComplete='off' onChange={e => handleInputChange(e)} />
-                            <label> kilogram(s).</label>
-                            {errors.maxWeight && (
-                                <p className="danger">{errors.maxWeight}</p>
-                            )}
+                            <label className='element'>Maximum weight:</label>
+                            <input className='field' type="text" size='10' name="maxWeight" placeholder='8.4' autoComplete='off' onChange={e => handleInputChange(e)} />
+                            <label className='label'> kilogram(s).</label>
+
                         </div>
+                        <br />
                         <div>
-                            <label>Life-span:</label>
-                            <input type="text" name="life_span" placeholder='10' autoComplete='off' onChange={e => handleInputChange(e)} />
-                            {errors.life_span && (
-                                <p className="danger">{errors.life_span}</p>
-                            )}
+                            <label className='element'>Life-span:</label>
+                            <input className='field' type="text" size='10' name="life_span" placeholder='10' autoComplete='off' onChange={e => handleInputChange(e)} />
+
                             {/* <label> - </label>
                             <input type="text" name="maxLifeSpan" placeholder='15' autoComplete='off' onChange={e => handleInputChange(e)} /> */}
                             <label> years.</label>
@@ -171,34 +170,45 @@ export default function NewDog () {
                             )} */}
                         </div>
                         <div>
-                            <label>Select temperaments:</label>
-                            <select name="temperament" id="temperament" onChange={e => handleInputChange(e)}>
+                            <label className='element'>Temperament:</label>
+                            <select className='temps' name="temperament" id="temperament" onChange={e => handleInputChange(e)}>
                                 {
                                     temperamentsDB.map( temp => <option key={id++} value={temp}>{temp}</option>)
                                 }
                             </select>
-                                <button onClick={e => addTemperament(e)}>Add</button>
+                                <button className='add' onClick={e => addTemperament(e)}>Add</button>
                                 <div> 
-                                    <p>Selected temperaments:</p> 
-                                    <ul>
+                                    <p className='selected'>Selected temperaments:</p> 
+                                    <div className='grid-container'>
                                         {   
-                                            temps.map(temp => <li key={temp}>{temp}</li>)
+                                            temps.map(temp => <span className='temperaments' key={temp}> {temp} </span>)
                                         }
-                                    </ul>
+                                    </div>
                                 </div>
                         </div>
+                        <div className='dangerContainer'>
+                        {errors.name && (<p className="danger">{errors.name}</p>)}
+                        {errors.minHeight && (<p className="danger">{errors.minHeight}</p>)}
+                        {errors.maxHeight && (<p className="danger">{errors.maxHeight}</p>)}
+                        {errors.minWeight && (<p className="danger">{errors.minWeight}</p>)}
+                        {errors.maxWeight && (<p className="danger">{errors.maxWeight}</p>)}
+                        {errors.life_span && (<p className="danger">{errors.life_span}</p>)}
+                        </div>
                         
-                        <button onClick={e => submitForm(e)}>Create!</button>
                     </form>
-                </>
+                        <button className='submit' onClick={e => submitForm(e)}>Create!</button>
+                </div>
             ) : (
-                <>
-                    <p>Success! *gif de success*</p>
+                <div className='success'>
+                    <h1>Success!</h1>
+                    <img className='successGif' src={gif} alt="successGif" />
+                    <div className='buttonContainer'>
                     <Link to='/home'>
-                        <button>← Home</button>
+                        <button className='button'>← Home</button>
                     </Link>
-                    <button onClick={e => createNew(e)}>Create more!</button>
-                </>
+                    <button className='button'onClick={e => createNew(e)}>Create more!</button>
+                    </div>
+                </div>
             )
 
         

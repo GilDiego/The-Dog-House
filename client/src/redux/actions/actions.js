@@ -2,6 +2,8 @@ export const GET_DOGS = 'GET_DOGS'
 export const SEARCH_DOGS = 'SEARCH_DOGS'
 export const SEARCH_ID = 'SEARCH_ID'
 export const POST_DOG = 'POST_DOG'
+export const SAVE_SEARCH = 'SAVE_SEARCH'
+
 
 
 export function getDogs(){
@@ -13,6 +15,7 @@ export function getDogs(){
             })
     }
 }
+
 
 export function searchDogs(name){
     return function(dispatch){
@@ -36,3 +39,13 @@ export function searchId(id){
             })
     }
     }
+
+export function saveSearch(search){
+    return function(dispatch){
+        let searchString = ''
+        return (
+            searchString = search,
+            dispatch({ type: "SAVE_SEARCH", payload: searchString})
+        )
+    }
+}

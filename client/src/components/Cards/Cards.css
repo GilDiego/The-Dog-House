@@ -1,5 +1,11 @@
-/* .loading {
-  size: 50px;
-  border: 2px solid black;
-  background-image: url(../../media/loading1.gif);
+.cards {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+}
+/* .gridItem {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
 } */

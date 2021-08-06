@@ -1,62 +1,53 @@
+import './Cards.css';
 import React, { useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getDogs } from '../../redux/actions/actions';
 import { fetchDB } from '../../redux/actions/buttonsActions';
+import Pagination from '../Pagination/Pagination.jsx';
 import Card from '../Card/Card.jsx'
-// import Pagination from '../Pagination/Pagination.jsx';
-
+import loadingGif from '../../media/loading1.gif'
 
 export default function Cards() {
+    const [loading, setLoading] = useState(true)
+    const [data, setData] = useState([])
     const [display, setDisplay] = useState([])
-    // const [pages, setPages] = useState(0)
-    const [finalDisplay, setFinal] = useState([])
-    const [displaySearch, setDisplaySearch] = useState([])
-    // const [finalSearch, SetFinalSearch] = useState([])
-
+    const [finalDisplay, setFinalDisplay] = useState([])
+    const [page, setPage] = useState(1)
+    const [postsPerPage] = useState(8)
 
     const dispatch = useDispatch()
     const dogsRedux = useSelector(state => state.dogsReducer.dogsLoaded)
     const resultsRedux = useSelector(state => state.dogsReducer.dogsSearched)
     const dogsDB = useSelector(state => state.buttonsReducer.dogsFromDB)
-
+    const searchString = useSelector(state => state.dogsReducer.search)
     const srcs = useSelector(state => state.buttonsReducer.sources)
-    const optionsSelected = useSelector(state => state.buttonsReducer.optionsSelected)
+    const options = useSelector(state => state.buttonsReducer.optionsSelected)
 
-    // useEffect(() =>{
-    //     setPages(0)
-    //     let counter = 0
-    //     finalDisplay.forEach(dog => counter++)
-    //     counter = (counter / 8)
-    //     setPages(counter)
-    // },[finalDisplay, displaySearch])
-
-    useEffect(()=>{
-        dispatch(getDogs())
-        dispatch(fetchDB())
+    // When component loads, stores data from Redux
+    useEffect(() => {
+        if (!dogsRedux.length) dispatch(getDogs())
+        if (!dogsDB.length) dispatch(fetchDB())
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-    
-    // concats arrays to display
-    useEffect(() => {
-        if (dogsDB.length && dogsRedux.length) return setDisplay(dogsDB.concat(dogsRedux))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dogsRedux, dogsDB])
+    },[])
 
-    // sets final display 
+    // When data from redux is stored, concats data if there are multiple sources
     useEffect(() => {
-        setFinal(display)
-    }, [display])
-
-    // if search, generates displaySearch values
-    useEffect(() => {
-        return setDisplaySearch(resultsRedux) 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [resultsRedux])
+        if (dogsRedux.length && dogsDB.length) setData(dogsDB.concat(dogsRedux))
+        else if (dogsRedux.length && !dogsDB.length) setData(dogsRedux)
+    },[dogsRedux, dogsDB])
     
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// Sources and Filter functions ////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     function filterAPI(array){
         if (srcs.API === false){
             return array.filter(dog => !dogsRedux.includes(dog))
+        }
+        else return array
+    }
+    function filertAPISearch(array){
+        if (srcs.API === false){
+            return array.filter(dog => dogsDB.includes(dog))
         }
         else return array
     }
@@ -67,69 +58,114 @@ export default function Cards() {
         else return array
     }
     function filterByTemperament(array){
-        if (optionsSelected.temperament !== 'All'){
-            return array.filter(dog => {
-                if (dog.temperament){
-                    return dog.temperament.toString().split(',').map(word => word.trim().replace(',', '')).includes(optionsSelected.temperament)
-                }
-                else return false
-            })
+        if (array.length && options.temperament !== 'All'){
+            return array.filter(dog => dog.temperament? dog.temperament.toString().split(',').map(word => word.trim().replace(',', '')).includes(options.temperament) : null)
         } 
-        else return array
+        else {
+            return array
+        }
     }
     function filterAlphabetically(array){
-        if (optionsSelected.order === 'A-Z'){
-            return array.sort((a, b) => b.name.localeCompare(a.name));
+        if (options.order === 'asc'){
+            let asc = [...array]
+            asc.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+            return asc;
         }
-        else if (optionsSelected.order === 'Z-A'){
-            return array.sort((a, b) => a.name.localeCompare(b.name));
+        else if (options.order === 'desc'){
+            let desc = [...array]
+            desc.sort((a, b) => b.name.toLowerCase().localeCompare(a.name.toLowerCase()))
+            return desc;
         }
-        else return array
+        else return array 
     }
     function findAvg(value){
         if (typeof value === 'string'){
-            let arr = value.split('-')
-            let res = (Number(arr[0]) + Number(arr[1]))/2
-            return parseInt(res).toString()
+            let arr = value.split('-') 
+            return arr[0].trim()
         }
     }
     function filterByWeight(array){
-        if (optionsSelected.weight === "Lightest-first"){
-            return array.sort((a, b) => findAvg(a.weight).localeCompare(findAvg(b.weight)));
+        if (options.weight === "Lightest-first"){
+            let lf = [...array]
+            lf.sort((a, b) => findAvg(a.weight) - findAvg(b.weight));
+            return lf
         }
-        else if (optionsSelected.weight === "Heaviest-first"){
-            return array.sort((a, b) => findAvg(b.weight).localeCompare(findAvg(a.weight)));
+        else if (options.weight === "Heaviest-first"){
+            let hf = [...array]
+            hf.sort((a, b) => findAvg(b.weight) - findAvg(a.weight));
+            return hf
         }
         else return array
     }
-    //////////////////////////////////// End of Filter functions ////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // filter finalDisplay by sources and options selected
+    //When data is saved, assigns data to display after required filtering & applies filtering to search results
     useEffect(() => {
-        if (dogsDB.length && dogsRedux.length && display.length){
-            let result = display
-            result = filterAPI(result)
-            result = filterDB(result)
-            result = filterByTemperament(result)
-            result = filterAlphabetically(result)
-            result = filterByWeight(result)
-            setFinal(result)
+        if (Array.isArray(resultsRedux) && resultsRedux.length) {
+            if (dogsDB) {
+            let filtered = dogsDB.filter(dog => dog.name.toLowerCase().includes(searchString.toLowerCase()))
+            let array = resultsRedux.concat(filtered)
+            array = filertAPISearch(array)
+            array = filterDB(array)
+            array = filterByTemperament(array)
+            array = filterAlphabetically(array)
+            array = filterByWeight(array)
+            setDisplay(array)
+            }
+        }
+        else {
+                let array = data
+                array = filterAPI(array)
+                array = filterDB(array)
+                array = filterByTemperament(array)
+                array = filterAlphabetically(array)
+                array = filterByWeight(array)
+                setDisplay(array) 
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [srcs, optionsSelected])
-
-
+    },[data, resultsRedux, dogsDB, searchString, srcs, options])
+    
     // sets ID for API or DB data
     function chooseId(idAPI, idDB){
-        if (idDB) return idDB
-        else return idAPI
+            if (idDB) return idDB
+            else return idAPI
     }
+
+    // Pagination
+    let index = 0
+    // Change page
+    const paginate = (pageNumber) => setPage(pageNumber)
+
+    //Sets value of final display following pagination rules
+    useEffect(() => {
+        const indexOfLastPost = page * postsPerPage
+        const indexOfFirstPost = indexOfLastPost - postsPerPage
+        setFinalDisplay(display.slice(indexOfFirstPost, indexOfLastPost))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[display, page])
+
+    // Applies filters to the final display and removes loading status
+    useEffect(() => {
+        if (finalDisplay.length) setLoading(false)
+    },[finalDisplay, srcs, options])
+
+
     return (
-        (displaySearch.length < 1) ? (
-            (finalDisplay.length < 1) ? ( <p>Loading gif</p> ) : (
-                <>
+            <>
+                {
+                (loading) ? (
+                        <div>
+                        <img src={loadingGif} alt="loading" />
+                        <p>Loading...</p>
+                        </div>
+                ) : (
+                    <>
+                        <div className='cards'>
                         {
-                            finalDisplay.map(dog => <Card 
+                            finalDisplay.map(dog => <Card
+                                index = {++index}
                                 key={chooseId(dog.id, dog.idDB)}
                                 id={chooseId(dog.id, dog.idDB)}
                                 img={dog.image}
@@ -138,39 +174,16 @@ export default function Cards() {
                                 weight={dog.weight}
                             />)
                         }
-                        {/* <Pagination number={pages}/> */}
-                    </>
-            )
-        ) : (
-                (displaySearch === 'No search queries.' ) ? (<p>No matches. Sad doggo</p>) : (
-                    
-                    <>
-                        {
-                        displaySearch.map(dog => <Card 
-                            key= {chooseId(dog.id, dog.idDB)}
-                            id={chooseId(dog.id, dog.idDB)}
-                            img={dog.image}
-                            name={dog.name}
-                            temperaments={dog.temperament}
-                            />)
-                        }
-                        {/* <Pagination number={pages}/> */}
+                        </div>
+                        <Pagination 
+                            postsPerPage={postsPerPage} 
+                            totalPosts={display.length} 
+                            paginate={paginate}
+                        />
                     </>
                 )
-            )
-            //
-            
+                }
+            </>
     )
 }
-        
-        // // on component mount, fetch storage for display value
-        // useEffect(() => {
-        //     const displayValue = JSON.parse(localStorage.getItem("display") || [])
-        //     setDisplay(displayValue)
-        //   }, [])
-    
-        // // each time display changes, saves display in local storage
-        // useEffect(() => {
-        //     localStorage.setItem("display", JSON.stringify(display))
-        // }, [display])
-        
+

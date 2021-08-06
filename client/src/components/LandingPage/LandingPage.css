@@ -1,15 +1,30 @@
+body {
+  background-color: bisque;
+}
 .lp {
   background-image: url(../../media/landing.jpg);
-  background-size: 100% 100%;
   background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-
-  padding: 15px;
+  background-size: cover;
+  border-radius: 50%;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translateX(-50%) translateY(-50%);
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  top: 5.7%;
+  left: 27%;
+  margin-top: -50px;
+  margin-left: -50px;
+  width: 900px;
+  height: 900px;
+}
+#button:hover {
+  cursor: pointer;
+  background-color: rgb(255, 201, 136);
+}
+#button {
+  font-size: larger;
+  color: rgb(43, 41, 41);
+  position: absolute;
+  top: 49%;
+  left: 42.3%;
+  background-color: rgb(238, 177, 102);
+  border-radius: 5px;
+  border: 1px solid rgb(126, 121, 121);
 }
