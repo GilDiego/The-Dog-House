@@ -3,6 +3,7 @@ import React from 'react';
 // import { useState, useEffect} from 'react'
 // import { useDispatch, useSelector } from 'react-redux'
 // import { getDogs, searchDogs } from '../redux/actions/actions';
+import Header from '../Header/Header.jsx';
 import Cards from '../Cards/Cards.jsx';
 import Searchbar from '../SearchBar/SearchBar.jsx';
 import Buttons from '../Buttons/Buttons.jsx'
@@ -23,12 +24,9 @@ export default function Home () {
     return (
         
         <>
-
-        <Searchbar/>
+        <Header/>
         <Buttons/>
-        <Cards/>
-
-
+        <Cards/>     
         </>
     )  
 } 

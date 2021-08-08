@@ -44,7 +44,7 @@ export default function Buttons() {
     return (
         <div>
 
-            <Link to="/new"><button>Create</button></Link>
+            <Link to="/new"><span className="create-button">Creation Studio</span></Link>
             <form action="">
                 <span className="button-row">Results from: </span>
                     <input type="checkbox" defaultChecked={true} onChange={e => setAPI(!API)} id="vehicle1" name="vehicle1" value="Bike" />

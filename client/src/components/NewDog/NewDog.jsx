@@ -118,7 +118,7 @@ export default function NewDog () {
     return (
             (editing) ? (
                 <div className="main">
-                    <h3 className='title'>Creation Studio</h3>
+                    <h3 className='creation-title'>Creation Studio</h3>
                     <p className='alert'>**All fields are required.</p>
                     <form className='form'>
                     <br />

@@ -1,0 +1,59 @@
+/* .search-button {
+  background-image: url(../../media/magnifying_glass.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #8d7b68;
+  border: none;
+  width: 35px;
+  height: 30px;
+  font-size: 2rem;
+  position: relative;
+  top: 8px;
+  left: 2px;
+}
+.search-button:hover {
+  opacity: 1;
+} */
+.search-button {
+  display: none;
+}
+.search-field::placeholder {
+  color: rgba(255, 255, 255, 0.623);
+  font-style: italic;
+}
+
+.clear-button {
+  background-color: #8d7b68;
+  border: none;
+  color: rgba(255, 255, 255, 0.623);
+  font-size: 20px;
+  position: relative;
+  right: 13px;
+  bottom: 2px;
+}
+.clear-button:hover {
+  color: white;
+  cursor: pointer;
+}
+.search-field {
+  outline: none;
+  border: none;
+  background-color: #8d7b68;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.623);
+  color: rgba(255, 255, 255, 0.623);
+}
+.search-field:focus {
+  border-bottom: 2px solid white;
+  color: white;
+}
+.search-field:hover {
+  border-bottom: 2px solid white;
+  color: white;
+}
+.search-error {
+  color: red;
+  position: absolute;
+  top: -10px;
+
+  font-size: 12px;
+}

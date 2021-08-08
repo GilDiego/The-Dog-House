@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { searchDogs, saveSearch } from '../../redux/actions/actions';
+import './SearchBar.css'
 
 export default function Searchbar() {
     const [results, setResults] = useState('')
@@ -26,22 +27,22 @@ export default function Searchbar() {
     }
     return (
         
-        <div>
-            <form onSubmit={e => handleSubmit(e)}>
+        <div className="search-box" type="submit">
+            <form onSubmit={e => handleSubmit(e)} >
                 
                         <input
-                            className='searchField'
+                            className="search-field"
                             type="text"
-                            placeholder="Search for dogs"
+                            placeholder="Search for dogs..."
                             onChange={e => handleChange(e)}
                             value={results}
                         />
-                        <input type="submit" value="Fetch!"/>
+                        <input className="search-button" type="submit" value={false}/>
                         {
-                            (!Array.isArray(resultsRedux)) ? <p>No results.</p> : null
+                            (!Array.isArray(resultsRedux)) ? <p className='search-error'>No results.</p> : null
                         }
+            <button className="clear-button" onClick={e => clearSearch()}>ₓ</button>
             </form>
-            <button onClick={e => clearSearch()}>Clear</button>
         </div>
     )
 }

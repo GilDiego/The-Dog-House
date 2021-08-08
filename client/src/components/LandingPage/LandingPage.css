@@ -1,5 +1,14 @@
+html {
+  min-height: 100%;
+}
 body {
-  background-color: bisque;
+  background: rgb(254, 250, 224);
+  background: linear-gradient(
+    135deg,
+    rgba(254, 250, 224, 1) 0%,
+    rgba(212, 163, 115, 1) 100%,
+    rgba(250, 237, 205, 1) 100%
+  );
 }
 .lp {
   background-image: url(../../media/landing.jpg);
