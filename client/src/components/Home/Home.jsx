@@ -5,7 +5,6 @@ import React from 'react';
 // import { getDogs, searchDogs } from '../redux/actions/actions';
 import Header from '../Header/Header.jsx';
 import Cards from '../Cards/Cards.jsx';
-import Searchbar from '../SearchBar/SearchBar.jsx';
 import Buttons from '../Buttons/Buttons.jsx'
 
 export default function Home () {

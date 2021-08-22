@@ -57,14 +57,17 @@ export default function Details () {
                     </>
                 ) : (
                     <>
-                        <div className="container">
-                            {
-                                (dog.idDB) ? (
-                                    <img className='large-img' src={placeholder} alt={dog.name} />
-                                ) : (
-                                    <img className='large-img' src={`https://cdn2.thedogapi.com/images/${dogObject.image.id}.jpg`} alt="" />
-                                )
-                            }
+                        <div className="main-details">
+                            <div className='details-top-half'>
+                                {  
+                                    (dog.idDB) ? (
+                                        <img className='large-img' src={placeholder} alt={dog.name} />
+                                    ) : (
+                                        <img className='large-img' src={`https://cdn2.thedogapi.com/images/${dogObject.image.id}.jpg`} alt="" />
+                                    )
+                                }
+                            </div>
+                            
                             <h1>{dog.name}</h1> 
                             <div className="data">
                             {
@@ -85,11 +88,9 @@ export default function Details () {
                             }
                             </div>
                         </div>
-                        <div className='buttonContainer'>
                             <Link to="/home">
                                 <button className='button' > ← Home</button>
                             </Link>
-                        </div>
                     </>
                 )
                 }

@@ -1,0 +1,23 @@
+.pagination {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  margin-top: 3px;
+}
+.page-number {
+  color: rgb(255, 255, 255);
+  background-color: rgb(175, 156, 132);
+  border: #aeb1a4 1.5px solid;
+  display: inline-block;
+  width: 25px;
+  margin: 2px;
+  border-radius: 3px;
+}
+.page-number:hover {
+  cursor: pointer;
+  background-color: rgb(148, 132, 113);
+}
+.active {
+  background-color: rgb(128, 114, 99);
+}

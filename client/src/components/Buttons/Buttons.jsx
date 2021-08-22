@@ -42,9 +42,10 @@ export default function Buttons() {
     let id = 0
 
     return (
-        <div>
-
+        <>
             <Link to="/new"><span className="create-button">Creation Studio</span></Link>
+
+            <div className='buttons'>
             <form action="">
                 <span className="button-row">Results from: </span>
                     <input type="checkbox" defaultChecked={true} onChange={e => setAPI(!API)} id="vehicle1" name="vehicle1" value="Bike" />
@@ -52,7 +53,8 @@ export default function Buttons() {
 
                     <input type="checkbox" defaultChecked={true} onChange={e => setDB(!DB)} id="vehicle1" name="vehicle1" value="Bike" />
                     <label>DB</label>
-            
+                    <span className='mini-splitter'>&nbsp;</span>
+
                 <span className="button-row">Sort by: </span>
                     <label>Temperament:</label>
                     <select name="Temperaments" id="Temperaments" onChange={e => setTemperament(e.target.value)}>
@@ -61,6 +63,7 @@ export default function Buttons() {
                             allTemps.map( temp => <option key={id++} value={temp}>{temp}</option>)
                         }
                     </select>
+                    <span className='mini-splitter'>&nbsp;</span>
 
                     <label>Order:</label>
                     <select name="Order" id="Order" onChange={e => setOrder(e.target.value)}>
@@ -68,6 +71,7 @@ export default function Buttons() {
                         <option value="asc">A - Z</option>
                         <option value="desc">Z - A</option>
                     </select>
+                    <span className='mini-splitter'>&nbsp;</span>
 
                     <label>Weight:</label>
                     <select name="Weight" id="Weight" onChange={e => setWeight(e.target.value)}>
@@ -78,6 +82,8 @@ export default function Buttons() {
 {/* 
                 <input type="submit" onSubmit={e => handleSubmit()} value="Save" /> */}
             </form>
-        </div>
+            </div>
+            
+        </>
     )
 }

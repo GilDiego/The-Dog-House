@@ -5,7 +5,7 @@ import './Header.css';
 
 
 
-export default function Header({state}) {
+export default function Header() {
 
     return (
         <div className='jumbotron'>

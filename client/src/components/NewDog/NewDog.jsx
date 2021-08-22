@@ -117,7 +117,7 @@ export default function NewDog () {
     let id = 0
     return (
             (editing) ? (
-                <div className="main">
+                <div className="main-studio">
                     <h3 className='creation-title'>Creation Studio</h3>
                     <p className='alert'>**All fields are required.</p>
                     <form className='form'>
@@ -132,14 +132,14 @@ export default function NewDog () {
                         
                         <div>
                             <label className='element'>Minimum height:</label>
-                            <input className='field' type="text" size='10' name="minHeight" placeholder='1' autoComplete='off' onChange={e => handleInputChange(e)} />
+                            <input className='field' type="text" size='10' name="minHeight" placeholder='30' autoComplete='off' onChange={e => handleInputChange(e)} />
                             <label className='label'> centimeters.</label>
 
                         </div>
                         <br />
                         <div>
                             <label className='element'>Maximum height:</label>
-                            <input className='field' type="text" size='10' name="maxHeight" placeholder='1.5' autoComplete='off' onChange={e => handleInputChange(e)} />
+                            <input className='field' type="text" size='10' name="maxHeight" placeholder='50' autoComplete='off' onChange={e => handleInputChange(e)} />
                             <label className='label'> centimeters.</label>
                         </div>
                         <br />
@@ -196,7 +196,7 @@ export default function NewDog () {
                         </div>
                         
                     </form>
-                        <button className='submit' onClick={e => submitForm(e)}>Create!</button>
+                        <button className='button create-btn' onClick={e => submitForm(e)}>Create!</button>
                 </div>
             ) : (
                 <div className='success'>

@@ -3,6 +3,7 @@
   height: 70px;
   border-bottom: #aeb1a4 0.5px solid;
   background-color: #8d7b68;
+  text-shadow: 1px 1px 2px black;
 }
 .title {
   color: #ffffff;
