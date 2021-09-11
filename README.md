@@ -10,7 +10,7 @@ This encyclopedia includes the following functionalities:
 - Sort by weight (Lightest to Heaviest, Heaviest to Lightest).
 - Sort by Temperament (Active, Curious, Happy, Playful, etc).
 - Access detailed information about selected breed.
-- Add your own breed to the Internal Database
+- Add your own breed to the Internal Database through the Creation Studio (controlled form) component.
 
 ## Technologies used:
 
