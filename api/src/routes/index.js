@@ -1,21 +1,55 @@
 const { Router } = require('express');
-// Importar todos los routers;
-// Ejemplo: const authRouter = require('./auth.js');
-const dogs = require('./dogs.js');
-const dogsParams = require('./dogsParams')
-const temperament = require('./temperaments.js');
-const dogPost = require('./dogPost.js');
-const dogsDB = require('./dogsDB')
+const dogApi = require('../services/dogApi');
+const store = require('../services/dogs');
+const { Dog, Temperament } = require('../db');
 
 const router = Router();
 
-// Configurar los routers
+const handle = (action) => (req, res, next) => action(req, res).catch(next);
 
-router.use('/dogs', dogs)
-router.use('/dogs/:id', dogsParams)
-router.use('/temperament', temperament)
-router.use('/dog', dogPost)
-router.use('/dogsDB', dogsDB)
+router.get(
+  '/dogs',
+  handle(async (req, res) => {
+    const { name } = req.query;
+    res.json(name ? await dogApi.searchBreeds(name) : await dogApi.listBreeds());
+  })
+);
 
+router.get(
+  '/dogs/:id',
+  handle(async (req, res) => {
+    const breed = await dogApi.getBreed(req.params.id);
+
+    if (!breed) return res.status(404).json({ error: 'No match for the ID recieved' });
+
+    res.json(breed);
+  })
+);
+
+router.get(
+  '/dogsDB',
+  handle(async (req, res) => {
+    res.json(await Dog.findAll());
+  })
+);
+
+router.get(
+  '/temperament',
+  handle(async (req, res) => {
+    const temperaments = await Temperament.findAll({ attributes: ['name'] });
+
+    if (temperaments.length) return res.json(temperaments);
+
+    res.json(await store.syncTemperaments(await dogApi.listTemperaments()));
+  })
+);
+
+router.post(
+  '/dog',
+  handle(async (req, res) => {
+    await store.createStored(req.body);
+    res.status(200).send('Dog generated successfully.');
+  })
+);
 
 module.exports = router;
