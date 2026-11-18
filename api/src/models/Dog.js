@@ -1,59 +1,36 @@
 const { DataTypes } = require('sequelize');
-// Exportamos una funcion que define el modelo
-// Luego le injectamos la conexion a sequelize.
-module.exports = (sequelize) => {
-  // defino el modelo
+
+const required = { type: DataTypes.STRING, allowNull: false };
+
+module.exports = (sequelize) =>
   sequelize.define('dog', {
     idDB: {
       type: DataTypes.VIRTUAL,
-        get() {
-          return `${this.id}DB`;
-        },
+      get() {
+        return `${this.id}DB`;
+      },
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    minHeight: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    maxHeight: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    name: { ...required, unique: true },
+    minHeight: required,
+    maxHeight: required,
     height: {
       type: DataTypes.VIRTUAL,
-        get() {
-          return `${this.minHeight} - ${this.maxHeight}`;
-        },
+      get() {
+        return `${this.minHeight} - ${this.maxHeight}`;
+      },
     },
-    minWeight: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    maxWeight: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    minWeight: required,
+    maxWeight: required,
     weight: {
       type: DataTypes.VIRTUAL,
-        get() {
-          return `${this.minWeight} - ${this.maxWeight}`;
-        },
+      get() {
+        return `${this.minWeight} - ${this.maxWeight}`;
+      },
     },
-    life_span: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    life_span: required,
     image: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    temperament: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
+    temperament: required,
   });
-};
