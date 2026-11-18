@@ -1,51 +1,24 @@
-export const GET_DOGS = 'GET_DOGS'
-export const SEARCH_DOGS = 'SEARCH_DOGS'
-export const SEARCH_ID = 'SEARCH_ID'
-export const POST_DOG = 'POST_DOG'
-export const SAVE_SEARCH = 'SAVE_SEARCH'
+import { API_URL } from '../../config';
 
+export const GET_DOGS = 'GET_DOGS';
+export const SEARCH_DOGS = 'SEARCH_DOGS';
+export const SEARCH_ID = 'SEARCH_ID';
+export const POST_DOG = 'POST_DOG';
+export const SAVE_SEARCH = 'SAVE_SEARCH';
 
+const load = (path, type) => (dispatch) =>
+  fetch(`${API_URL}${path}`)
+    .then((response) => response.json())
+    .then((payload) => dispatch({ type, payload }));
 
-export function getDogs(){
-    return function(dispatch){
-        return fetch('http://localhost:3001/dogs')
-            .then(data => data.json())
-            .then (json => {
-                dispatch({ type: "GET_DOGS", payload: json})
-            })
-    }
-}
+export const getDogs = () => load('/dogs', GET_DOGS);
 
+export const searchDogs = (name) => (dispatch) => {
+  if (!name) return dispatch({ type: SEARCH_DOGS, payload: [] });
 
-export function searchDogs(name){
-    return function(dispatch){
-        if (!name) {
-            return dispatch({ type: "SEARCH_DOGS", payload: []})
-        }
-        else return fetch('http://localhost:3001/dogs?name=' + name)
-            .then(data => data.json())
-            .then (json => {
-                dispatch({ type: "SEARCH_DOGS", payload: json})
-            })
-    }
-}
+  return load(`/dogs?name=${encodeURIComponent(name)}`, SEARCH_DOGS)(dispatch);
+};
 
-export function searchId(id){
-    return function(dispatch){
-        return fetch('http://localhost:3001/dogs/' + id)
-            .then(data => data.json())
-            .then (json => {
-                dispatch({ type: "SEARCH_ID", payload: json})
-            })
-    }
-    }
+export const searchId = (id) => load(`/dogs/${id}`, SEARCH_ID);
 
-export function saveSearch(search){
-    return function(dispatch){
-        let searchString = ''
-        return (
-            searchString = search,
-            dispatch({ type: "SAVE_SEARCH", payload: searchString})
-        )
-    }
-}
+export const saveSearch = (search) => ({ type: SAVE_SEARCH, payload: search });
